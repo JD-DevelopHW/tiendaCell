@@ -1,0 +1,17 @@
+{% extends 'layout.html'%} {% block content %} 
+
+<form  method='POST' >
+        
+    {% csrf_token %} 
+
+    {{error}}
+
+   {{form.as_p}}
+
+   <button>
+    update
+   </button>
+
+   </form>
+
+{% endblock %}

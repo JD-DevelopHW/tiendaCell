@@ -1,10 +1,11 @@
 from django.urls import path
-from .views import listCategorys, createCategory,inventario
+from .views import listCategorys, createCategory,editCategory,inventario, categoryRemove
 
-app_name = 'inventario'
 
 urlpatterns = [
-    path('', inventario),
-    path('categorys/', listCategorys, name='categorys'),
+    path('', inventario, name='home'),
+    path('categorys/', listCategorys, name='listCategorys'),
     path('categorys/create/', createCategory, name='categorys_create'),
+    path('categorys/edit/<int:categoryId>/', editCategory, name='category_edit'),
+    path('categorys/remove/<int:categoryId>', categoryRemove, name='category_remove'),
 ]

@@ -4,5 +4,5 @@ from inventario import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('', include('inventario.urls')),
+    path('', include('inventario.urls'))
 ]
