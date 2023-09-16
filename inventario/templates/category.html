@@ -22,32 +22,10 @@
           <tr>
             <td>{{ category.id }}</td>
             <td>{{ category.name }}</td>
-            {% comment %} este fuciona {% endcomment %}
-             {% comment %} <form action="{% url 'category_remove' category.id %}" method='POST'>
-              {% csrf_token %}
-              <td><button type="submit" class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
-            </form>  {% endcomment %}
-            {% comment %} <form class="delete-form" action="{% url 'category_remove' category.id %}" method='POST'>
-              {% csrf_token %}
-              <td><button type="button" class="btn btn-danger delete-button" data-category-id="{{ category.id }}"><i class="fa-solid fa-trash"></i></button>
-            </form>   {% endcomment %}
-            {% comment %} <form id="deleteForm" action="{% url 'category_remove' category.id %}" method="POST">
-              {% csrf_token %}
-              <button type="submit" class="btn btn-danger" id="deleteButton">
-                  <i class="fa-solid fa-trash"></i>
-              </button>
-            </form> {% endcomment %}
-              {% comment %} <form class="delete-form" action="{% url 'category_remove' category.id %}" method="POST">
-                  {% csrf_token %}
-                  <button type="button" class="btn btn-danger delete-button" data-category-id="{{ category.id }}">
-                      <i class="fa-solid fa-trash"></i>
-                  </button>
-              </form> {% endcomment %}
-              <form id="deleteForm{{ category.id }}" action="{% url 'category_remove' category.id %}" method="POST">
+            
+              <form id="delete-form-1" action="{% url 'category_remove' category.id %}" method='POST'>
                 {% csrf_token %}
-                <td><button type="submit" class="btn btn-danger" id="deleteButton{{ category.id }}">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
+                <td><button type="button" class="btn btn-danger delete-button" data-form="delete-form-1"><i class="fa-solid fa-trash"></i></button>
               </form>
               <a type="button" class="btn btn-primary" href="{% url 'category_edit' category.id %}"><i class="fa-solid fa-pencil"></i></a>
             </td>
@@ -97,40 +75,34 @@
         $('#miTabla').DataTable();
     });
   </script>
-    
+
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Selecciona todos los botones de eliminación
-        const deleteButtons = document.querySelectorAll('.btn-danger');
-
-        // Agrega un evento de clic a cada botón de eliminación
-        deleteButtons.forEach(function(button) {
-            button.addEventListener('click', function(event) {
-                event.preventDefault(); // Previene el envío del formulario
-
-                const deleteForm = this.closest('form'); // Encuentra el formulario más cercano
-
-                // Utiliza SweetAlert2 para mostrar una alerta de confirmación
-                Swal.fire({
-                    title: '¿Estás seguro?',
-                    text: "No podrás revertir esto.",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Sí, eliminarlo'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Si el usuario confirma, envía el formulario
-                        deleteForm.submit(); // Asegúrate de que esta línea esté presente
-                    }
-                });
-            });
+    document.addEventListener("DOMContentLoaded", function() {
+      const deleteButtons = document.querySelectorAll(".delete-button");
+    
+      deleteButtons.forEach((button) => {
+        button.addEventListener("click", function() {
+          const formId = button.getAttribute("data-form");
+          const deleteForm = document.getElementById(formId);
+    
+          Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Si el usuario confirma, envía el formulario correspondiente
+              deleteForm.submit();
+            }
+          });
         });
+      });
     });
-</script>
-
-  
+    </script>
 
 {% endblock %}
 
