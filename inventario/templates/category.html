@@ -27,8 +27,7 @@
                 {% csrf_token %}
                 <td><button type="button" class="btn btn-danger delete-button" data-form="delete-form-1"><i class="fa-solid fa-trash"></i></button>
               </form>
-              {% comment %} <a type="button" class="btn btn-primary" href="{% url 'category_edit' category.id %}"><i class="fa-solid fa-pencil"></i></a> {% endcomment %}
-              <button class="cargarURL" data-url="{% url 'category_edit' category.id %}">prueba</button>
+              <button class="cargarURL btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal" data-url="{% url 'category_edit' category.id %}"><i class="fa-solid fa-pencil"></i></button>
             </td>
           </tr>
         {% endfor %}
@@ -73,8 +72,26 @@
 
 <!------------------------------------------>
 
-
-<div id="contenidoURL"></div>
+<!-- Modal -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Categoria</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      
+       <div class="container">
+<div class="row">
+    <div class="col-md-8">
+      <div id="contenidoURL"></div>
+    </div>
+</div>
+</div> 
+      
+    </div>
+  </div>
+</div>
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
