@@ -1,17 +1,14 @@
-{% extends 'layout.html'%} {% block content %} 
-
-<form  method='POST' >
+<form  method='POST' action="{% url 'category_edit' category.id %}">
         
     {% csrf_token %} 
 
-    {{error}}
-
-   {{form.as_p}}
+   {{form}}
 
    <button>
     update
    </button>
 
    </form>
+    
 
-{% endblock %}
+

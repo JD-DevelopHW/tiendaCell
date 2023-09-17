@@ -27,7 +27,8 @@
                 {% csrf_token %}
                 <td><button type="button" class="btn btn-danger delete-button" data-form="delete-form-1"><i class="fa-solid fa-trash"></i></button>
               </form>
-              <a type="button" class="btn btn-primary" href="{% url 'category_edit' category.id %}"><i class="fa-solid fa-pencil"></i></a>
+              {% comment %} <a type="button" class="btn btn-primary" href="{% url 'category_edit' category.id %}"><i class="fa-solid fa-pencil"></i></a> {% endcomment %}
+              <button class="cargarURL" data-url="{% url 'category_edit' category.id %}">prueba</button>
             </td>
           </tr>
         {% endfor %}
@@ -53,7 +54,7 @@
               
               <div class="mb-3">
                   <label for="{{ form.name.id_for_label }}" class="form-label">Nombre:</label>
-                  <input type="text" id="{{ form.name.id_for_label }}" name="{{ form.name.name }}" class="form-control">
+                  <input type="text" id="{{ form.name.id_for_label }}" name="{{ form.data }}" class="form-control">
               </div>
 
               <div class="modal-footer">
@@ -68,6 +69,40 @@
       </div>
     </div>
   </div>
+
+
+<!------------------------------------------>
+
+
+<div id="contenidoURL"></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+      const cargarURLButtons = document.querySelectorAll(".cargarURL");
+      const contenidoURL = document.getElementById("contenidoURL");
+
+      cargarURLButtons.forEach(button => {
+          button.addEventListener("click", function() {
+              // Obtén la URL almacenada en el atributo data-url del botón
+              const url = this.getAttribute("data-url");
+              
+              // Realiza una solicitud HTTP usando JavaScript
+              fetch(url)
+                  .then(response => response.text())
+                  .then(data => {
+                      // Muestra el contenido de la URL en el contenedor
+                      contenidoURL.innerHTML = data;
+                  })
+                  .catch(error => {
+                      console.error('Error:', error);
+                  });
+          });
+      });
+  });
+</script>
+
+
+<!------------------------------------------>
 
   <script>
     $(document).ready(function() {

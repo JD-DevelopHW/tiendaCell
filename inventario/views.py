@@ -41,15 +41,18 @@ def editCategory(request, categoryId):
         
         findCategory = get_object_or_404(Category, pk=categoryId)
         form = CategoryForms(instance=findCategory)
-
+        
+        
         return render(request, 'categoryEditTemporal.html', {
-            'form': form
+            'form': form,
+            'category': findCategory
         })
 
     else:
         try:
             category = get_object_or_404(Category, pk=categoryId)
             form = CategoryForms(request.POST, instance=category)
+            print(form)
             form.save()
             return redirect('listCategorys')
         except ValueError:
