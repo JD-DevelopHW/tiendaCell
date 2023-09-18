@@ -1,9 +1,17 @@
 from django.db import models
+from django.core.exceptions import ValidationError
+
 
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=50)
     status = models.BooleanField(default=True)
+
+    # def clean_name(self):
+    #     name = self.name
+
+        # if len(name) < 5:
+        #     raise ValidationError("El nombre debe tener al menos 5 caracteres.")
 
 class Supplier(models.Model):
     name = models.CharField(max_length=50)

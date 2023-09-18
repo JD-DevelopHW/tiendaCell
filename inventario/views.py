@@ -21,9 +21,9 @@ def listCategorys(request):
 def createCategory(request):
     
     try:
-        form = CategoryForms(request.POST)
-        form.save()
-        return redirect('listCategorys')
+            form = CategoryForms(request.POST)
+            form.save()
+            return redirect('listCategorys')
     
     except ValueError:
          
@@ -107,6 +107,30 @@ def supplierRemove(request, supplierId):
 
     return redirect('listSuppliers')
 
+
+
+def editSupplier(request, supplierId):
+     
+    isupplier = get_object_or_404(Supplier, pk=supplierId)
+
+    if request.method == 'GET':
+        form = SupplierForm(instance=isupplier)
+        return render(request, 'supplier/supplierEdit.html', {
+            'form': form,
+            'supplierId': isupplier.id
+        })
+
+    elif request.method == 'POST':
+        form = SupplierForm(request.POST, instance=isupplier)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('listSuppliers') 
+        else:
+            return render(request, 'supplier/supplierEdit.html', {
+                'form': form,
+                'supplier': isupplier
+            })
 
 
 
