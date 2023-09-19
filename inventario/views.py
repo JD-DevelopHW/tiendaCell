@@ -1,12 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Category, Supplier
-from .forms import CategoryForms, SupplierForm 
+from .models import Category, Supplier, Inventory
+from .forms import CategoryForms, SupplierForm , InventoryForm
 
 # Create your views here.
-
-def inventario(request):
-
-    return render(request, 'inventario.html')
 
 def listCategorys(request):
 
@@ -131,7 +127,72 @@ def editSupplier(request, supplierId):
                 'form': form,
                 'supplier': isupplier
             })
+        
+#<-------------------------Invetory---------------------->
 
 
+def inventario(request):
+
+    iInventory = Inventory.objects.all()
+
+    return render(request, 'inventario.html', {
+         'form': InventoryForm,
+         'inventories': iInventory
+    })
+
+
+
+
+def createInventory(request):
+    
+    try:
+            form = InventoryForm(request.POST)
+            form.save()
+            return redirect('home')
+    
+    except ValueError:
+         
+        # categorys = Category.objects.filter(status=True)
+
+        # return render(request,'category.html', {
+        #     'form': CategoryForms,
+        #     'categorys': categorys,
+        #     'error': 'Por favor ingresar datos validos!'
+        # })
+        return redirect('home')
+    
+
+def editInventory(request, inventoryId):
+     
+    iInventory = get_object_or_404(Inventory, pk=inventoryId)
+
+    if request.method == 'GET':
+        form = InventoryForm(instance=iInventory)
+        categoryName = iInventory.category.name
+        supplierName = iInventory.supplier.name
+        return render(request, 'inventoryEdit.html', {
+            'form': form,
+            'inventory': iInventory,
+            'categoryName': categoryName,
+            'supplierName': supplierName
+        })
+
+    elif request.method == 'POST':
+
+        form = InventoryForm(request.POST, instance=iInventory)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('home') 
+        
+        else:
+            
+            iInventory = Inventory.objects.all()
+
+            return render(request, 'inventario.html', {
+                'form': InventoryForm,
+                'inventories': iInventory,
+                'error': 'No se guardo'
+            })
 
          
